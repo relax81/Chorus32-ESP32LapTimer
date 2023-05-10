@@ -130,7 +130,7 @@ void setup() {
     setModuleChannelBand(i % getNumReceivers());
   }
 
-  //beep();
+  beep();
 }
 
 void loop() {
