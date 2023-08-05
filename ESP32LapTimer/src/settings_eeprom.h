@@ -21,7 +21,7 @@
 #include "crc.h"
 
 enum RXADCfilter_ {LPF_10Hz, LPF_20Hz, LPF_50Hz, LPF_100Hz};
-enum ADCVBATmode_ {OFF, ADC_CH5, ADC_CH6, INA219};
+enum ADCVBATmode_ {OFF, ADC_CH4, ADC_CH5, INA219};
 
 #define MaxChannel 7
 #define MaxBand 7

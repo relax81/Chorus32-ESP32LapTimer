@@ -72,6 +72,20 @@ void ConfigureADC() {
     adc1_config_channel_atten(ADC_PINS[i], ADC_ATTEN_6db);
   }
 
+  // for battery readings
+  switch (getADCVBATmode()) {
+      case ADC_CH4:
+        adc1_config_channel_atten(ADC1_CHANNEL_4, ADC_ATTEN_11db);
+        break;
+      case ADC_CH5:
+        adc1_config_channel_atten(ADC1_CHANNEL_5, ADC_ATTEN_11db);
+        break;
+      default:
+        break;
+    }
+
+  
+
   //since the reference voltage can range from 1000mV to 1200mV we are using 1100mV as a default
   esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_6db, ADC_WIDTH_BIT_12, 1100, &adc_chars);
 
@@ -174,12 +188,12 @@ float getVbatFloat(bool force_read){
   static uint32_t last_voltage_update = 0;
   if((millis() - last_voltage_update) > VOLTAGE_UPDATE_INTERVAL_MS || force_read) {
     switch (getADCVBATmode()) {
-      case ADC_CH5:
-        VbatReadingSmooth = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC5), &adc_chars);
+      case ADC_CH4:
+        VbatReadingSmooth = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC1_CHANNEL_4), &adc_chars);
         setVbatFloat(VbatReadingSmooth / 1000.0 * VBATcalibration);
         break;
-      case ADC_CH6:
-        VbatReadingSmooth = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC6), &adc_chars);
+      case ADC_CH5:
+        VbatReadingSmooth = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC1_CHANNEL_5), &adc_chars);
         setVbatFloat(VbatReadingSmooth / 1000.0 * VBATcalibration);
         break;
       case INA219:
